@@ -1,1 +1,1 @@
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}/*# sourceMappingURL=style.min.css.map */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}.container{display:flex;justify-content:space-between;align-items:center;flex-direction:column;min-height:100vh;background-color:orange}.container::before,.container::after{content:"Juego"}.panel{width:clamp(400px, 90vw, 50vw);height:max(80vh, 400px);box-shadow:0 0 15px 2px #000}/*# sourceMappingURL=style.min.css.map */
