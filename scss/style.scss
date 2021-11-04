@@ -19,7 +19,14 @@
     }
 }
 .panel{
+    position: relative;
     width: clamp(400px, 90vw, 50vw);
     height: max(80vh, 400px);
     box-shadow: 0 0 15px 2px black;
+}
+.platform{
+    position: absolute;
+    height: 15px;
+    width: 85px;
+    background-color: green;
 }
