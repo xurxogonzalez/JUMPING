@@ -9,7 +9,7 @@
 
 .container{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
@@ -23,6 +23,7 @@
     width: clamp(400px, 90vw, 50vw);
     height: max(80vh, 400px);
     box-shadow: 0 0 15px 2px black;
+    overflow: hidden;
 }
 .platform{
     position: absolute;
