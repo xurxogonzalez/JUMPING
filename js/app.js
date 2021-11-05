@@ -1,7 +1,30 @@
 "use strict";
 
+/**
+ * Variables primitivas
+ */
 let isGameOver = false; //Si el juego está acabado cargamos la estructura del juego
 let platformCount = 5; //número de plataformas para crear
+
+/**
+* 
+* Creación de una plataforma sobre el que saltará el personaje
+* 
+* @param {Number} bottom Posicición hacia abajo en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
+* @param {Number} left Posicición a la izquierda en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
+ */
+class Platform {
+    constructor(bottom, left) {
+        this.bottom = bottom;
+        this.left = left;
+        this.visual = window.document.createElement("div"); //Creamos nodo en el DOM
+
+        const visual = this.visual;
+        visual.classList.add("platform");
+        visual.style.bottom = `${this.bottom}px`;
+        visual.style.left = `${this.left}px`;
+    }
+}
 
 //Nodos
 let panel = document.querySelector(".panel");
@@ -31,12 +54,9 @@ const createPlatform = () => {
     for (let i = 0; i < platformCount; i++) {
         let platformGap = getHeight(panel) / platformCount;
         let platformLeft = Math.random() * (getWidth(panel) - 85);//85 es el ancho de la plataforma
-        let platformTop = platformGap - 20 + i * platformGap;
-        let divEl = document.createElement("div");
-        divEl.classList.add("platform");
-        divEl.style.top = `${platformTop}px`;
-        divEl.style.left = `${platformLeft}px`;
-        panel.appendChild(divEl);
+        let platformBottom = platformGap - 20 + i * platformGap;
+        const plat = new Platform(platformBottom, platformLeft);
+        panel.appendChild(plat.visual);
     }
 }
 
@@ -59,10 +79,6 @@ const start = () => {
     if (isGameOver === false) {
 
         try {
-
-
-
-
             createPlatform();
 
         } catch (error) {
