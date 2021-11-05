@@ -5,6 +5,8 @@
  */
 let isGameOver = false; //Si el juego está acabado cargamos la estructura del juego
 let platformCount = 5; //número de plataformas para crear
+let platforms = [];
+let intervalMovePlatId = null;
 
 /**
 * 
@@ -49,53 +51,51 @@ const getWidth = element => element.offsetWidth || element.style.pixelWidth;
  * @param {Number} platformTop Posición desde lo alto (top) en la que se ubicarán las plataformas
  * @param {Number} platformLeft Posición desde la izquierda (left) en la que se ubicarán las plataformas
  */
-const createPlatform = () => {
-    deletePlats();
+const createPlatforms = () => {
     for (let i = 0; i < platformCount; i++) {
         let platformGap = getHeight(panel) / platformCount;
         let platformLeft = Math.random() * (getWidth(panel) - 85);//85 es el ancho de la plataforma
         let platformBottom = platformGap - 20 + i * platformGap;
-        const plat = new Platform(platformBottom, platformLeft);
-        panel.appendChild(plat.visual);
+        platforms.push(new Platform(platformBottom, platformLeft));
+        console.log(platforms);
+        panel.appendChild(platforms[i].visual);
     }
 }
 
+
+   
 /**
- * Eliminar todos los elementos plataforma
+ * Función para mover las plataformas
  */
-const deletePlats = () => {
-    let platforms = document.querySelectorAll(".platform");
+const movePlatforms = () => {
     platforms.forEach(
-        el => {
-            el.parentElement.removeChild(el);
+        (platform, index) => {
+            platform.bottom -= 4;
+            console.log(platform.bottom)
+            const visual = platform.visual;
+            visual.style.bottom = `${platform.bottom}px`;
+            if (index === platforms.length - 1 && platform.bottom < -20) {
+                clearInterval(intervalMovePlatId);
+            }
         }
     );
 }
+
+    
 
 /**
  * Se dispara el juego
  */
 const start = () => {
     if (isGameOver === false) {
-
         try {
-            createPlatform();
-
+            createPlatforms();
+            intervalMovePlatId = setInterval(movePlatforms, 40);
         } catch (error) {
             console.log(`JavaScript. Creo que seleccionaste mal elemento : ${error}`);
         }
     }
-
 }
 
-
+//Empieza todo aquí
 start();
-
-
-//Eventos
-window.addEventListener(
-    "resize",
-    () => {
-        createPlatform();
-    }
-);
