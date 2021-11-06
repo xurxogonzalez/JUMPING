@@ -14,29 +14,41 @@ let intervalMovePlatId = null;
 *
 */
 class Platform {
+    //campo privados
+    #bottom = 0;
+    #left = 0;
+    #visual = null;
     /**
      * 
      * @param {Number} bottom Posicición hacia abajo en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
      * @param {Number} left Posicición a la izquierda en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
      */
     constructor(bottom, left) {
-        this.bottom = bottom;
-        this.left = left;
-        this.visual = window.document.createElement("div"); //Creamos nodo en el DOM
+        this.#bottom = bottom;
+        this.#left = left;
+        this.#visual = window.document.createElement("div"); //Creamos nodo en el DOM
 
-        const visual = this.visual;
+        const visual = this.#visual;
         visual.classList.add("platform");
-        visual.style.bottom = `${this.bottom}px`;
-        visual.style.left = `${this.left}px`;
+        visual.style.bottom = `${this.#bottom}px`;
+        visual.style.left = `${this.#left}px`;
     }
 
     /**
-     * Método para desplazar la plataforma hacia abajo
+     * Método getter que devuelve el nodo DOM de la plataforma
      */
-    move() {
-        this.bottom -= 4;
-        const visual = this.visual;
-        visual.style.bottom = `${this.bottom}px`;
+    get getVisual(){
+        return this.#visual;
+    }
+
+    /**
+     * 
+     * @param {Number} size Tamaño de desplazamiento por defecto
+     */
+    move(size=4) {
+        this.#bottom -= size;
+        const visual = this.#visual;
+        visual.style.bottom = `${this.#bottom}px`;
     }
 }
 
@@ -70,7 +82,7 @@ const createPlatforms = () => {
         let platformBottom = platformGap - 20 + i * platformGap;
         platforms.push(new Platform(platformBottom, platformLeft));
         console.log(platforms);
-        panel.appendChild(platforms[i].visual);
+        panel.appendChild(platforms[i].getVisual);
     }
 }
 
@@ -82,7 +94,7 @@ const createPlatforms = () => {
 const movePlatforms = () => {
     platforms.forEach(
         (platform, index) => {
-            platform.move(); 
+            platform.move(4); 
             //Cuando lleguemos a la última plataforma y su posición bottom sea negativa 
             //detenemos el movimiento           
             if (index === platforms.length - 1 && platform.bottom < -20) {
