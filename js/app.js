@@ -11,11 +11,14 @@ let intervalMovePlatId = null;
 /**
 * 
 * Creación de una plataforma sobre el que saltará el personaje
-* 
-* @param {Number} bottom Posicición hacia abajo en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
-* @param {Number} left Posicición a la izquierda en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
- */
+*
+*/
 class Platform {
+    /**
+     * 
+     * @param {Number} bottom Posicición hacia abajo en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
+     * @param {Number} left Posicición a la izquierda en que aparece el elemento (position: absolute) con respecto a su padre (position: relative)
+     */
     constructor(bottom, left) {
         this.bottom = bottom;
         this.left = left;
@@ -25,6 +28,15 @@ class Platform {
         visual.classList.add("platform");
         visual.style.bottom = `${this.bottom}px`;
         visual.style.left = `${this.left}px`;
+    }
+
+    /**
+     * Método para desplazar la plataforma hacia abajo
+     */
+    move() {
+        this.bottom -= 4;
+        const visual = this.visual;
+        visual.style.bottom = `${this.bottom}px`;
     }
 }
 
@@ -63,17 +75,16 @@ const createPlatforms = () => {
 }
 
 
-   
+
 /**
  * Función para mover las plataformas
  */
 const movePlatforms = () => {
     platforms.forEach(
         (platform, index) => {
-            platform.bottom -= 4;
-            console.log(platform.bottom)
-            const visual = platform.visual;
-            visual.style.bottom = `${platform.bottom}px`;
+            platform.move(); 
+            //Cuando lleguemos a la última plataforma y su posición bottom sea negativa 
+            //detenemos el movimiento           
             if (index === platforms.length - 1 && platform.bottom < -20) {
                 clearInterval(intervalMovePlatId);
             }
@@ -81,7 +92,7 @@ const movePlatforms = () => {
     );
 }
 
-    
+
 
 /**
  * Se dispara el juego
